@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let Us Crochet</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: white;
+        color: black;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 32px;
+        margin-bottom: 25px;
+        font-weight: bold;
+    }
+
+    .section {
+        margin-bottom: 40px;
+    }
+
+    .label {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .input-box {
+        width: 80%;
+        max-width: 300px;
+        padding: 12px;
+        border: 3px solid gold;
+        border-radius: 0;
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .display-box {
+        border: 3px solid gold;
+        padding: 20px;
+        width: 140px;
+        margin: 0 auto 15px auto;
+        font-size: 34px;
+        font-weight: bold;
+        background: white;
+        border-radius: 0;
+    }
+
+    .button-row {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    button {
+        background: hotpink;
+        color: white;
+        border: none;
+        padding: 20px 30px;
+        font-size: 26px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 0;
+        width: 90px;
+    }
+
+    button:active {
+        transform: scale(0.95);
+    }
+
+    textarea {
+        width: 80%;
+        max-width: 350px;
+        height: 120px;
+        padding: 12px;
+        border: 3px solid gold;
+        border-radius: 0;
+        font-size: 16px;
+    }
+
+    .reset-btn {
+        margin-top: 15px;
+        background: black;
+        color: white;
+        width: 140px;
+        padding: 15px;
+        font-size: 18px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Let Us Crochet</h1>
+
+<!-- PROJECT NAME -->
+<div class="section">
+    <div class="label">Project Name</div>
+    <input id="projectName" class="input-box" type="text" placeholder="Enter project name">
+</div>
+
+<!-- ROW COUNTER -->
+<div class="section">
+    <div class="label">Row Counter</div>
+    <div id="rowDisplay" class="display-box">0</div>
+    <div class="button-row">
+        <button onclick="changeRow(-1)">-</button>
+        <button onclick="changeRow(1)">+</button>
+    </div>
+</div>
+
+<!-- STITCH COUNTER -->
+<div class="section">
+    <div class="label">Stitch Counter</div>
+    <div id="stitchDisplay" class="display-box">0</div>
+    <div class="button-row">
+        <button onclick="changeStitch(-1)">-</button>
+        <button onclick="changeStitch(1)">+</button>
+    </div>
+</div>
+
+<!-- NOTES -->
+<div class="section">
+    <div class="label">Notes</div>
+    <textarea id="notesBox" placeholder="Write your notes here..."></textarea>
+</div>
+
+<!-- RESET BUTTONS -->
+<div class="section">
+    <button class="reset-btn" onclick="resetAll()">Reset All</button>
+</div>
+
+<script>
+    // Load saved values
+    let rowCount = parseInt(localStorage.getItem("rowCount")) || 0;
+    let stitchCount = parseInt(localStorage.getItem("stitchCount")) || 0;
+    let savedProject = localStorage.getItem("projectName") || "";
+    let savedNotes = localStorage.getItem("notes") || "";
+
+    document.getElementById("rowDisplay").textContent = rowCount;
+    document.getElementById("stitchDisplay").textContent = stitchCount;
+    document.getElementById("projectName").value = savedProject;
+    document.getElementById("notesBox").value = savedNotes;
+
+    // Save project name
+    document.getElementById("projectName").addEventListener("input", function() {
+        localStorage.setItem("projectName", this.value);
+    });
+
+    // Save notes
+    document.getElementById("notesBox").addEventListener("input", function() {
+        localStorage.setItem("notes", this.value);
+    });
+
+    function changeRow(amount) {
+        rowCount = Math.max(0, rowCount + amount);
+        document.getElementById("rowDisplay").textContent = rowCount;
+        localStorage.setItem("rowCount", rowCount);
+    }
+
+    function changeStitch(amount) {
+        stitchCount = Math.max(0, stitchCount + amount);
+        document.getElementById("stitchDisplay").textContent = stitchCount;
+        localStorage.setItem("stitchCount", stitchCount);
+    }
+
+    function resetAll() {
+        rowCount = 0;
+        stitchCount = 0;
+        document.getElementById("rowDisplay").textContent = 0;
+        document.getElementById("stitchDisplay").textContent = 0;
+        localStorage.setItem("rowCount", 0);
+        localStorage.setItem("stitchCount", 0);
+
+        document.getElementById("projectName").value = "";
+        document.getElementById("notesBox").value = "";
+        localStorage.setItem("projectName", "");
+        localStorage.setItem("notes", "");
+    }
+</script>
+
+</body>
+</html>
